@@ -23,8 +23,10 @@
             class="login-password"
             v-model="user_pwd"
           />
-
         </div>
+        <el-checkbox v-model="checked" style="padding:0 18px"
+          >记住我</el-checkbox
+        >
         <input type="submit" value="登录" class="login-submit" @click="login" />
         <div class="login-forgot-pass">
           <span>
@@ -47,12 +49,26 @@ export default {
   data() {
     return {
       user_name: "",
-      user_pwd: ""
+      user_pwd: "",
+      checked: false
     };
   },
   methods: {
+    // openFullScreen2() {
+    //   const loading = this.$loading({
+    //     lock: true,
+    //     text: "加载中,请稍后...",
+    //     spinner: "el-icon-loading",
+    //     background: "rgba(0, 0, 0, 0.7)"
+    //   });
+    //   setTimeout(() => {
+    //     loading.close();
+    //   }, 3000);
+    // },
     async login(e) {
       e.preventDefault();
+
+      // this.openFullScreen2();
       const res = await this.$axios.post(`${process.env.BACKEND_URL}/login`, {
         user_name: this.user_name,
         user_pwd: this.user_pwd
@@ -69,7 +85,13 @@ export default {
 
         this.$store.commit("setUserPic", user_res.data[0].user_pic);
         this.$store.commit("setUser", user_res.data[0]);
+        if (this.checked) {
+          localStorage.setItem("userName", this.user_name);
+          localStorage.setItem("userPic", user_res.data[0].user_pic);
+          localStorage.setItem("user", JSON.stringify(user_res.data[0]));
+        }
         this.$router.push(`/user/${this.user_name}`);
+        // this.$router.go(-1);
         this.$message({
           message: "登陆成功！正在跳转...",
           type: "success"
@@ -120,21 +142,21 @@ label.login-username1 {
   width: 100vw;
   height: calc(100vh - 260px);
   overflow: hidden;
-  animation: hue-rotate 6s infinite;
+  // animation: hue-rotate 6s infinite;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, #000 220px),
     url("https://web-music.oss-cn-shenzhen.aliyuncs.com/static/album-backgrounds.jpg")
       repeat-x center -115px;
   background-position: top 60px;
   z-index: -1;
 }
-@keyframes hue-rotate {
-  from {
-    -webkit-filter: grayscale(30%) hue-rotate(0deg);
-  }
-  to {
-    -webkit-filter: grayscale(30%) hue-rotate(360deg);
-  }
-}
+// @keyframes hue-rotate {
+//   from {
+//     -webkit-filter: grayscale(30%) hue-rotate(0deg);
+//   }
+//   to {
+//     -webkit-filter: grayscale(30%) hue-rotate(360deg);
+//   }
+// }
 .login-form {
   min-height: 10rem;
   margin: auto;

@@ -51,24 +51,30 @@
         </ul>
       </div>
     </div>
-    <Musiclist
-      :title="isUser ? '你喜欢的音乐' : `${params}喜欢的音乐`"
-      subtitle="重复聆听你的挚爱"
-      :content="liked_music"
-      type="song"
-    />
-    <Musiclist
-      :title="isUser ? '你创建的歌单' : `${params}创建的歌单`"
-      subtitle="重复聆听你的挚爱"
-      :content="created_musiclist"
-      type="playlist"
-    />
-    <Musiclist
-      :title="isUser ? '你收藏的歌单' : `${params}收藏的歌单`"
-      subtitle="重复聆听你的挚爱"
-      :content="collected_musiclist"
-      type="playlist"
-    />
+    <vue-lazy-component>
+      <Musiclist
+        :title="isUser ? '你喜欢的音乐' : `${params}喜欢的音乐`"
+        subtitle="重复聆听你的挚爱"
+        :content="liked_music"
+        type="song"
+      />
+    </vue-lazy-component>
+    <vue-lazy-component>
+      <Musiclist
+        :title="isUser ? '你创建的歌单' : `${params}创建的歌单`"
+        subtitle="重复聆听你的挚爱"
+        :content="created_musiclist"
+        type="playlist"
+      />
+    </vue-lazy-component>
+    <vue-lazy-component>
+      <Musiclist
+        :title="isUser ? '你收藏的歌单' : `${params}收藏的歌单`"
+        subtitle="重复聆听你的挚爱"
+        :content="collected_musiclist"
+        type="playlist"
+      />
+    </vue-lazy-component>
   </div>
 </template>
 
@@ -179,7 +185,7 @@ export default {
             name: song.ar[0].name,
             baseUrl: "artist"
           },
-          picUrl: al.data.songs[0].al.picUrl,
+          picUrl: al.data.songs[0].al.picUrl + "?param=150y150",
           baseUrl: "song"
         };
         liked_music_temp.push(item);

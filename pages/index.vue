@@ -39,7 +39,9 @@ export default {
     const artists_list = await $axios.$get(
       `${BASE_URL}/top/artists?offset=0&limit=9`
     );
-    const hot_music = await $axios.$get(`${BASE_URL}/top/list?idx=8`);
+    const hot_music = await $axios.$get(
+      `${BASE_URL}/playlist/detail?id=11641012`
+    );
 
     let artistsList = [];
     let hotMusic = [];
@@ -63,7 +65,7 @@ export default {
       const title = item.name;
       const subtitle_name = item.ar[0].name;
       const subtitle_id = item.ar[0].id;
-      const picUrl = item.al.picUrl;
+      const picUrl = item.al.picUrl + "?param=150y150";
       hotMusic.push({
         id,
         baseUrl: "song",
